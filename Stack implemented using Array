@@ -1,0 +1,116 @@
+#include <stdio.h>
+int top=-1;
+int arr[100];
+int isfull()
+{
+    int x;
+    if(top==99)
+    x=1;
+    else
+    x=0;
+    return x;
+}
+int isempty()
+{
+    int x;
+    if(top==-1)
+    x=1;
+    else
+    x=0;
+    return x;
+}
+void push(int d)
+{
+    if(isfull()==1)
+    {
+        printf("Stack is full, cannot add new element, try removing and adding\n");
+    }
+    else
+    {
+        top=top+1;
+        arr[top]=d;
+    }
+}
+void pop()
+{
+    if(isempty()==1)
+    {
+        printf("Stack is empty\n");
+    }
+    else
+    {
+        top=top-1;
+    }
+}
+void display()
+{
+    for(int i=top;i>=0;i--)
+    {
+        printf("%d ",arr[i]);
+    }
+    printf("\n");
+}
+void peak()
+{
+    int x;
+    if(isempty()==1)
+    {
+        printf("Stack is empty, no peak values\n");
+    }
+    else
+    {
+        x=arr[top];
+    }
+    printf("Peak value is %d\n",x);
+}
+void main() 
+{
+    printf("STACK\n");
+    int ch,c;
+    printf("Press \n1-Add an element \n2-Remove an element\n 3-Print elements \n4-display the peak element \n5-Check if stack is full \n6-Check if stack is empty\n");
+    do
+    {
+        printf("Enter your choice of operation\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:
+            int data;
+            printf("Enter element to be added\n");
+            scanf("%d",&data);
+            push(data);
+            break;
+            case 2:
+            pop();
+            break;
+            case 3:
+            display();
+            break;
+            case 4:
+            peak();
+            break;
+            case 5:
+            int t;
+            t=isfull();
+            if(t==1)
+            printf("Stack is full\n");
+            else
+            printf("Stack is not full\n");
+            break;
+            case 6:
+            int y;
+            y=isempty();
+            if(y==1)
+            printf("Stack is empty\n");
+            else
+            printf("Stack is not empty\n");
+            break;
+            default:
+            printf("Please enter a value between 1 and 6\n");
+            break;
+        }
+        printf("Do you want to continue? 1-YES 0-NO\n");
+        scanf("%d",&c);
+    }while(c==1);
+}
+

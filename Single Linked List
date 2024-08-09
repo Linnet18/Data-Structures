@@ -1,0 +1,179 @@
+#include <stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *na;
+}*head=NULL,*pos=NULL;
+
+void insertatlast(int d)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=d;
+    newnode->na=NULL;
+    if(head==NULL)
+    {
+        head=newnode;
+        pos=newnode;
+    }
+    else
+    {
+        pos->na=newnode;
+        pos=newnode;
+    }
+}
+void insertfrombeg(int d)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=d;
+    newnode->na=NULL;
+    if(head==NULL)
+    {
+        head=newnode;
+        pos=newnode;
+    }
+    else
+    {
+        newnode->na=head;
+        head=newnode;
+    }
+}
+void insertatpos(int d,int p)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=d;
+    newnode->na=NULL;
+    struct node *x=0;
+    pos=head;
+    for(int i=1;i<=p-1;i++)
+    {
+        newnode->na=pos->na;
+        x=pos;
+        pos=pos->na;
+    }
+    pos=x;
+    pos->na=newnode;
+}
+void display()
+{
+    printf("Current values in Linked List \n");
+    struct node *t=head;
+        while(t!=NULL)
+        {
+            printf("%d ", t->data);
+            t=t->na;
+        } 
+}
+void deletefrombeg()
+{
+    pos=head;
+    head=pos->na;
+    pos=head;
+}
+void deleteatend()
+{
+    struct node *temp=head;
+    struct node *x;
+    while(temp->na!=NULL)
+    {
+        x=temp;
+        temp=temp->na;
+                
+    }
+    x->na=NULL;
+}
+void deleteatpos(int p)
+{
+    pos=head;
+    struct node *x,*temp;
+    for(int i=1;i<=p;i++)
+    {
+        //temp->na=pos->na;
+        x=pos;
+        pos=pos->na;
+    }
+    temp=x->na;;
+    x->na=NULL;
+    free(x);
+    pos=head;
+    pos->na=temp;
+}
+void searching(int d)
+{
+    int position =1,flag;
+    struct node *t=head;
+    while(t!=NULL)
+    {
+        if(t->data==d)
+        {
+            flag=0;
+            printf("value found at %d \n",position);
+            break;
+        }
+        position++;
+        t=t->na;
+    }
+    if(flag!=0)
+    printf("Value not found \n");
+}
+void main() 
+{
+    int dataa,position,ch;
+    int t;
+    do
+    {
+            printf("Enter 1-Inserting element from end, 2-Inserting element from beginning , 3-Insert element at a position , 4- Print the Linked List , 5- Delete from beginning , 6- Delete from End , 7- Delete at a position , 8- Search an element \n");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+        case 1:
+        printf("Enter the element to be added \n ");
+        scanf("%d",&dataa);
+        insertatlast(dataa);
+        display();
+        break;
+        case 2:
+        printf("Enter the element to be added \n");
+        scanf("%d",&dataa);
+        insertfrombeg(dataa);
+        display();
+        break;
+        case 3:
+        printf("Enter the element to be added\n ");
+        scanf("%d",&dataa);
+        printf("Enter the position to be added \n");
+        scanf("%d",&position);
+        insertatpos(dataa,position);
+        display();
+        break;
+        case 4:
+        display();
+        break;
+        case 5:
+        deletefrombeg();
+        display();
+        break;
+        case 6:
+        deleteatend();
+        display();
+        break;
+        case 7:
+        printf("Enter the position to be deleted \n");
+        scanf("%d",&position);
+        deleteatpos(position);
+        display();
+        break;
+        case 8:
+        printf("Enter the element to be searched \n");
+        scanf("%d",&dataa);
+        searching(dataa);
+        break;
+        default:
+        printf("Please enter a value between 1-3\n ");
+        break;
+    
+    }
+    printf("Do you want to continue? 1-YES, 0- NO \n ");
+    scanf("%d",&t);
+    }while(t==1);
+}

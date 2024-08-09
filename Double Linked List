@@ -1,0 +1,200 @@
+// Online C compiler to run C program online
+#include <stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *na;
+    struct node *pa;
+}*head=NULL,*pos=NULL;
+void insertatlast(int d)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=d;
+    newnode->na=NULL;
+    newnode->pa=NULL;
+    if(head==NULL)
+    {
+        head=newnode;
+        pos=newnode;
+    }
+    else
+    {
+        pos->na=newnode;
+        newnode->pa=pos;
+        pos=newnode;
+    }
+}
+void insertfrombeg(int d)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=d;
+    newnode->na=NULL;
+    newnode->pa=NULL;
+    if(head==NULL)
+    {
+        head=newnode;
+        pos=newnode;
+    }
+    else
+    {
+        pos=head;
+        head=newnode;
+        newnode->na=pos;
+        pos->pa=newnode;
+        while(pos->na!=NULL)
+        {
+            pos=pos->na;
+        }
+    }
+}
+void insertatpos(int d,int p)
+{
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=d;
+    newnode->na=NULL;
+    newnode->pa=NULL;
+    if(p==1)
+    {
+        insertfrombeg(d);
+    }
+    else if(pos->na==NULL)
+    {
+        insertatlast(d);
+    }
+    else
+    {
+    int i=0;
+    pos=head;
+    struct node *x;
+    x=0;
+    for(i=1;i<p;i++)
+    {
+        x=pos;
+        pos=pos->na;
+    }
+    x->na=newnode;
+    newnode->pa=x;
+    pos->pa=newnode;
+    newnode->na=pos;
+    while(pos->na!=NULL)
+    {
+        pos=pos->na;
+    }
+    }
+}
+void display()
+{
+     struct node *t=head;
+        while(t!=NULL)
+        {
+            printf("%d ", t->data);
+            t=t->na;
+        }
+}
+void deletefromlast()
+{
+    pos=head;
+    struct node *x;
+    x=0;
+    while(pos->na!=NULL)
+    {
+        x=pos;
+        pos=pos->na;
+    }
+    x->na=NULL;
+    pos->pa=NULL;
+    free(pos);
+    pos=x;
+}
+void deleteatbeg()
+{
+    struct node *x=0;
+    pos=head;
+    x=pos->na;
+    x->pa=NULL;
+    head=x;
+    pos->na=NULL;
+    free(pos);
+    pos=head;
+}
+void deleteatpos(int p)
+{
+    if(p==1)
+    {
+        deleteatbeg();
+    }
+    else if(p>1 && pos->na==NULL)
+    {
+        deletefromlast();
+    }
+    else
+    {
+    int i;
+    struct node* x=0;
+    pos=head;
+    for(i=1;i<p;i++)
+    {
+        x=pos;
+        pos=pos->na;
+    }
+    x->na=pos->na;
+    pos->pa=NULL;
+    pos->na=NULL;
+    free(pos);
+    pos=x->na;
+    pos->pa=x;
+    }
+}
+
+void main() {
+     int dataa,position,ch,t;
+      printf("Enter 1-Inserting element from end\n2-Inserting element from beginning\n3-Insert element at a position in Linked List\n4- Print the Linked List\n5-Delete element from last\n6-Delete element from beginning\n7-Delete element at a position\n");
+    do
+    {
+          printf("Enter your choice of operation \n"); 
+    scanf("%d",&ch);
+    switch(ch)
+    {
+        case 1:
+        printf("Enter the element to be added \n ");
+        scanf("%d",&dataa);
+        insertatlast(dataa);
+        break;
+        case 2:
+        printf("Enter the element to be added \n");
+        scanf("%d",&dataa);
+        insertfrombeg(dataa);
+        break;
+        case 3:
+        printf("Enter the element to be added\n ");
+        scanf("%d",&dataa);
+        printf("Enter the position to be added \n");
+        scanf("%d",&position);
+        insertatpos(dataa,position);
+        break;
+        case 4:
+        display();
+        break;
+        case 5:
+        deletefromlast();
+        break;
+        case 6:
+        deleteatbeg();
+        break;
+        case 7:
+        printf("Enter the position to be deleted \n");
+        scanf("%d",&position);
+        deleteatpos(position);
+        break;
+        default:
+        printf("Please enter a value between 1-3\n ");
+        break;
+    
+    }
+    printf("Do you want to continue? 1-YES, 0- NO \n ");
+    scanf("%d",&t);
+    }while(t==1);
+
+}
+

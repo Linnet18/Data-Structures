@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *na;
+};
+void main() 
+{
+    struct node *head,*n1,*n2,*n3;
+    n1=(struct node*)malloc(sizeof(struct node));
+     n2=(struct node*)malloc(sizeof(struct node));
+      n3=(struct node*)malloc(sizeof(struct node));
+      
+      n1->data=10;
+      n2->data=30;
+      n3->data=50;
+      
+      n1->na=n2;
+      n2->na=n3;
+      n3->na=NULL;
+      head=n1;
+      
+      printf("%d",n1->data);
+      printf("%d",n2->data);
+      printf("%d",n3->data);
+}
+

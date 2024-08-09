@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define size 50
+char arr[size];
+struct stack
+{
+    int data;
+    struct stack *next;
+}*top=NULL,*pos=NULL;
+
+void display()
+{
+    if(top==NULL)
+    {
+        printf("No elements to be displayed\n");
+    }
+    else
+    {
+        for(pos=top;pos!=NULL;pos=pos->next)
+        {
+            printf("%d ",pos->data);
+        }
+    }
+    printf("\n");
+}
+
+
+void push(int x)
+{
+    struct stack *newnode=(struct stack*)malloc(sizeof(struct stack));
+    newnode->data=x;
+    newnode->next=NULL;
+    if(top==NULL)
+    {
+        top=newnode;
+        pos=newnode;
+    }
+    else
+    {
+        newnode->next=top;
+        top=newnode;
+    }
+}
+
+int pop()
+{
+    int result;
+    if(top==NULL)
+    {
+        printf("Stack Underflow, no elements available");
+    }
+    else
+    {
+        struct stack *x=top;
+        top=top->next;
+        result=x->data;
+        free(x);
+    }
+    return result;
+}
+
+void postfix(char exp[],int l)
+{
+    for(int i=0;i<l;i++)
+    {
+        char ch=exp[i];
+        printf("ch value =%c",ch);
+        if((ch>='0')&&(ch<='9'))
+        {
+            push(ch-48);
+            printf("Current stack values\n");
+            display();
+        }
+        else
+        {
+            int dataresult=0;
+            int v2=pop();
+            int v1=pop();
+            //v2=v2-48;
+            //v1=v1-48;
+            if(ch=='+')
+            {
+                dataresult=v1+v2;
+            }
+            else if(ch=='-')
+            {
+                dataresult=v1-v2;
+            }
+            else if(ch=='*')
+            {
+                dataresult=v1*v2;
+            }
+            else
+            {
+                dataresult=v1/v2;
+            }
+            
+            
+            push(dataresult);
+            
+            printf("Current stack values\n");
+            display();
+        }
+    }
+    //char finalresult=pop();
+    printf("%d",pop());
+}
+void main() 
+{
+   // printf("Enter the size of expression");
+    int len;
+   // scanf("%d",&len);
+    printf("Enter the expression\n");
+//   for(int i=0;i<len;i++)
+//   {
+//       //printf("Enter element %d: ",i);
+//       scanf("%c",&arr[i]);
+//   }
+  scanf("%s",arr);
+  len=strlen(arr);
+  postfix(arr,len);
+}
